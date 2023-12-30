@@ -4,3 +4,6 @@
 [submodule "External/emsdk"]
 	path = External/emsdk
 	url = https://github.com/emscripten-core/emsdk.git
+[submodule "External/wasi-sdk"]
+	path = External/wasi-sdk
+	url = https://github.com/WebAssembly/wasi-sdk.git
