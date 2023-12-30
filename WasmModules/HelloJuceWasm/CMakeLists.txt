@@ -9,14 +9,8 @@ set(JUCE_MODULES_ONLY ON CACHE INTERNAL "Only configure the JUCE modules")
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../External/JUCE JUCE)
 
-# Add library
+# Add executable target
 add_executable(${BaseTargetName})
-
-_juce_initialise_target(${BaseTargetName})
-
-_juce_set_output_name(${BaseTargetName} $<TARGET_PROPERTY:${BaseTargetName},JUCE_PRODUCT_NAME>)
-
-# juce_generate_juce_header(${BaseTargetName})
 
 target_sources(${BaseTargetName}
     PRIVATE
