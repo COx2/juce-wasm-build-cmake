@@ -18,10 +18,6 @@ target_sources(${BaseTargetName}
 
 target_compile_definitions(${BaseTargetName}
     PUBLIC
-        __linux__=0
-        __wasm__=1
-        JUCE_LINUX=0
-        JUCE_WASM=1
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0)
 
