@@ -23,31 +23,22 @@
             }
         },
         {
-            "name": "vs2022",
-            "displayName": "Windows-only configuration",
-            "description": "This build is only available on Windows",
-            "inherits": [
-                "base"
-            ],
-            "generator": "Visual Studio 17 2022",
-            "architecture": "x64"
-        },
-        {
             "name": "ninja-multi",
             "displayName": "Ninja Multi-Config",
             "description": "Default build using Ninja Multi-Config generator",
             "inherits": [
                 "base"
-            ]
-        },
-        {
-            "name": "xcode",
-            "displayName": "Xcode",
-            "description": "Default build using Xcode generator",
-            "inherits": [
-                "base"
             ],
-            "generator": "Xcode"
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "type": "PATH",
+                    "value": "${sourceDir}/External/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+                },
+                "CMAKE_MAKE_PROGRAM": {
+                    "type": "PATH",
+                    "value": "${sourceDir}/Ninja/ninja.exe"
+                }
+            }
         }
     ],
     "buildPresets": [
@@ -56,20 +47,6 @@
             "hidden": true,
             "targets":[
             ]
-        },
-        {
-            "name": "vs2022-debug",
-            "description": "Build using Visual Studio 17 2022 for Debug",
-            "configurePreset": "vs2022",
-            "configuration": "Debug",
-            "inherits": "base"
-        },
-        {
-            "name": "vs2022-release",
-            "description": "Build using Visual Studio 17 2022 for Release",
-            "configurePreset": "vs2022",
-            "configuration": "Release",
-            "inherits": "base"
         },
         {
             "name": "ninja-debug",
@@ -82,20 +59,6 @@
             "name": "ninja-release",
             "description": "Build using Ninja for Release",
             "configurePreset": "ninja-multi",
-            "configuration": "Release",
-            "inherits": "base"
-        },
-        {
-            "name": "xcode-debug",
-            "description": "Build using Xcode for Debug",
-            "configurePreset": "xcode",
-            "configuration": "Debug",
-            "inherits": "base"
-        },
-        {
-            "name": "xcode-release",
-            "description": "Build using Xcode for Release",
-            "configurePreset": "xcode",
             "configuration": "Release",
             "inherits": "base"
         }

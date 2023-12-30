@@ -1,24 +1,22 @@
 project(HelloJuceWasm VERSION 0.0.1)
 
+# Refer: https://stackoverflow.com/questions/75594285/emscripten-in-cmake-doesnt-output-html-file-when-i-setcmake-executable-suffix
+set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
 set (BaseTargetName HelloJuceWasm)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../External/JUCE JUCE EXCLUDE_FROM_ALL)
+set(JUCE_MODULES_ONLY ON CACHE INTERNAL "Only configure the JUCE modules")
 
-juce_add_console_app(${BaseTargetName}
-    PRODUCT_NAME "HelloJuceWasm")  # The name of the final executable, which can differ from the target name
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../External/JUCE JUCE)
 
-juce_generate_juce_header(${BaseTargetName})
+# Add library
+add_executable(${BaseTargetName})
 
-# juce_add_binary_data(${BaseTargetName}
-#     HEADER_NAME "Bundle.h"
-#     NAMESPACE "Bundle"
-#     SOURCES
-#     )
+_juce_initialise_target(${BaseTargetName})
 
-# Need to build BinaryData with -fPIC flag on Linux
-# set_target_properties("${BaseTargetName}_Bundle"
-#     PROPERTIES
-#         POSITION_INDEPENDENT_CODE TRUE)
+_juce_set_output_name(${BaseTargetName} $<TARGET_PROPERTY:${BaseTargetName},JUCE_PRODUCT_NAME>)
+
+# juce_generate_juce_header(${BaseTargetName})
 
 target_sources(${BaseTargetName}
     PRIVATE
@@ -26,26 +24,17 @@ target_sources(${BaseTargetName}
 
 target_compile_definitions(${BaseTargetName}
     PUBLIC
+        __linux__=0
+        __wasm__=1
+        JUCE_LINUX=0
+        JUCE_WASM=1
         JUCE_WEB_BROWSER=0
-        JUCE_USE_CURL=0
-        JUCE_VST3_CAN_REPLACE_VST2=0)
+        JUCE_USE_CURL=0)
 
-# Use PUBLIC to effect linked target like VST3, Standalone, CLAP, ...
 target_compile_features(${BaseTargetName}
     PUBLIC
         cxx_std_17)
 
-target_include_directories(${BaseTargetName}
-    PUBLIC
-        ${choc_SOURCE_DIR})
-
 target_link_libraries(${BaseTargetName}
     PRIVATE
-        # "${BaseTargetName}_Bundle"
-        juce::juce_gui_extra
-        juce::juce_audio_utils
-        juce::juce_audio_devices
-    PUBLIC
-        juce::juce_recommended_config_flags
-        juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags)
+        juce::juce_core)
