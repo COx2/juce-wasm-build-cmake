@@ -1,3 +1,6 @@
 [submodule "External/JUCE"]
 	path = External/JUCE
 	url = https://github.com/juce-framework/JUCE.git
+[submodule "External/emsdk"]
+	path = External/emsdk
+	url = https://github.com/emscripten-core/emsdk.git
